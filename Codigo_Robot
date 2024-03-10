@@ -1,0 +1,130 @@
+#include <gl/glut.h>
+#include <iostream>
+#include <cmath>
+
+void DibujarCirculo(float centrox, float centroy, float r, int num_segments) {
+    glBegin(GL_LINE_LOOP);
+    for (int i = 0; i < num_segments; i++) {
+        float theta = 2.0f * 3.1415926f * float(i) / float(num_segments); 
+        float x = r * cosf(theta);//calcular  x
+        float y = r * sinf(theta);//calcular y
+        glVertex2f(x + centrox, y + centroy);//salida en pantalla de punto x, y
+    }
+    glEnd();
+}
+
+void DibujarSemicirculo(float centrox, float centroy, float r, int num_segments, bool invertido) {
+    glBegin(GL_LINE_STRIP);
+    int inicio = invertido ? num_segments / 2 : 0;
+    int fin = invertido ? num_segments : num_segments / 2;
+    for (int i = inicio; i < fin; i++) {
+        float theta = 3.1415926f * float(i) / float(num_segments);
+        float x = r * cosf(theta);//calcular  x
+        float y = r * sinf(theta);//calcular y
+        glVertex2f(x + centrox, y + centroy);//salida en pantalla de punto x, y
+    }
+    glEnd();
+}
+
+
+void DibujarRectangulo(int x1, int y1, int x2, int y2) {
+    glBegin(GL_LINE_LOOP);
+    glVertex2i(x1, y1);
+    glVertex2i(x2, y1);
+    glVertex2i(x2, y2);
+    glVertex2i(x1, y2);
+    glEnd();
+}
+
+void DibujarTriangulos(int x1, int y1, int x2, int y2, int x3, int y3) {
+    glBegin(GL_TRIANGLES);
+    glVertex2i(x1, y1);
+    glVertex2i(x2, y2);
+    glVertex2i(x3, y3);
+    glEnd();
+}
+
+void DibujarRobot() {
+    // Cuerpo
+    DibujarRectangulo(300, 100, 500, 300);
+
+    // Cabeza
+    DibujarCirculo(400, 400, 100, 50);
+
+    // Antena
+    DibujarRectangulo(395, 500, 405, 550);
+     DibujarCirculo(400, 560, 10, 50);
+
+    // Ojos (Círculos)
+    glColor3f(0.0, 0.0, 0.0);
+    DibujarCirculo(375, 425, 15, 50);
+    DibujarCirculo(425, 425, 15, 50);
+
+    // Semicírculos en los ojos
+     glColor3f(1.0, 1.0, 1.0);
+    DibujarSemicirculo(365, 415, 15, 50, false);
+    DibujarSemicirculo(435, 415, 15, 50, true);
+
+    // Sonrisa (Cuadrados)
+    glColor3f(0.0, 0.0, 0.0);
+    DibujarRectangulo(375, 375, 425, 390);
+    DibujarRectangulo(375, 350, 425, 365);
+    DibujarRectangulo(375, 325, 425, 340);
+
+    // Botones
+    glColor3f(0.0, 0.0, 0.0);
+    DibujarRectangulo(325, 175, 475, 235);
+    DibujarCirculo(350, 200, 10, 50);
+    DibujarCirculo(400, 200, 10, 50);
+    DibujarCirculo(450, 200, 10, 50);
+
+    // Brazo izquierdo
+    DibujarRectangulo(170, 230, 280, 270);
+    DibujarCirculo(290, 250, 10, 50);
+    DibujarRectangulo(120, 260, 160, 270);
+    DibujarRectangulo(120, 230, 160, 240);
+    DibujarCirculo(160, 250, 8, 50);
+
+    // Brazo derecho
+
+    DibujarRectangulo(520, 230, 630, 270);
+    DibujarCirculo(510, 250, 10, 50);
+    DibujarRectangulo(640, 260, 680, 270);
+    DibujarRectangulo(640, 230, 680, 240);
+    DibujarCirculo(640, 250, 8, 50);
+
+    // Piernas
+    glColor3f(0.0, 0.0, 0.0);
+    DibujarRectangulo(350, 20, 375, 100);
+    DibujarRectangulo(425, 20, 450, 100);
+
+    // Pies
+    glColor3f(0.0, 0.0, 0.0);
+    DibujarTriangulos(320, 20, 375, 20, 375, 50);
+    DibujarTriangulos(425, 20, 480, 20, 425, 50);
+}
+
+void myInit() {
+    glClearColor(0.44, 0.7, 0.4, 0.0);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0.0, 800.0, 0.0, 800.0);
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(1.0, 0.0, 0.0);
+    DibujarRobot();
+    glFlush();
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitWindowSize(800, 800); 
+    glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - 800) / 2, (glutGet(GLUT_SCREEN_HEIGHT) - 800) / 2);
+    glutCreateWindow("Demo 1");
+    myInit();
+    glutDisplayFunc(display);
+    glutMainLoop();
+    return 0;
+}
