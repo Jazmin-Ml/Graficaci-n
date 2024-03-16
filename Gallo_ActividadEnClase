@@ -1,0 +1,110 @@
+#include <gl/glut.h>
+#include <iostream>
+#include <stdlib.h>
+#include <math.h>
+
+
+void pies() {
+    glColor3f(0.5f, 0.5f, 0.5f);
+    glBegin(GL_QUADS);
+    glVertex2i(342, 283);
+    glVertex2i(348, 283);
+    glVertex2i(348, 230);
+    glVertex2i(342, 230);
+    glEnd();
+    glColor3f(0.8f, 0.6f, 0.0f);
+    int num_segments = 200;
+    float center_x = 345;
+    float center_y = 215;
+    float radius_x = 50;
+    float radius_y = 10;
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < num_segments; i++) {
+        float theta = 2.0f * 3.1415926f * float(i) / float(num_segments);
+        float x = radius_x * cosf(theta);
+        float y = radius_y * sinf(theta);
+        glVertex2f(x + center_x, y + center_y);
+    }
+    glEnd();
+}
+
+void cola() {
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glBegin(GL_TRIANGLES);
+    glVertex2i(318, 370);
+    glVertex2i(293, 320);
+    glVertex2i(258, 370);
+    glEnd();
+    glColor3f(0.0f, 0.5f, 0.0f);
+    glBegin(GL_QUADS);
+    glVertex2i(318, 372);
+    glVertex2i(258, 372);
+    glVertex2i(228, 422);
+    glVertex2i(288, 422);
+    glEnd();
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glBegin(GL_TRIANGLES);
+    glVertex2i(226, 422);
+    glVertex2i(256, 372);
+    glVertex2i(222, 305);
+    glEnd();
+}
+
+void Cuerpo() {
+    glColor3f(0.2f, 0.2f, 0.2f);
+    glBegin(GL_POLYGON);
+    glVertex2i(320, 370);
+    glVertex2i(370, 370);
+    glVertex2i(395, 320);
+    glVertex2i(345, 285);
+    glVertex2i(295, 320);
+    glEnd();
+}
+
+void cabeza() {
+    glColor3f(0.8f, 0.6f, 0.0f);
+    glBegin(GL_TRIANGLES);
+    glVertex2i(370, 372);
+    glVertex2i(320, 372);
+    glVertex2i(370, 460);
+    glEnd();
+    glColor3f(0.3f, 0.3f, 0.3f);
+    glBegin(GL_QUADS);
+    glVertex2i(372, 420);
+    glVertex2i(412, 420);
+    glVertex2i(412, 460);
+    glVertex2i(372, 460);
+    glEnd();
+    glColor3f(1.0f, 1.0f, 0.0f);
+    glBegin(GL_TRIANGLES);
+    glVertex2i(342, 462);
+    glVertex2i(412, 462);
+    glVertex2i(370, 510);
+    glEnd();
+    glColor3f(0.5f, 0.5f, 0.5f);
+    glBegin(GL_TRIANGLES);
+    glVertex2i(392, 419);
+    glVertex2i(374, 385);
+    glVertex2i(408, 385);
+    glEnd();
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    Cuerpo();
+    pies();
+    cola();
+    cabeza();
+    glFlush();
+}
+
+int main(int argc, char** argv) {
+	glutInit(&argc, argv);
+	glutInitWindowSize(800, 600);
+	glutInitWindowPosition(10, 10);
+	glutCreateWindow("Gallo");
+	myInit();
+	glutDisplayFunc(display);
+	glutMainLoop();
+	return 0;
+}
